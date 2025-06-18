@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">NativeSynths</string>
+    <string-array name="waveforms">
+        <item>Sine</item>
+        <item>Square</item>
+        <item>Triangle</item>
+        <item>Sawtooth</item>
+    </string-array>
+</resources>
+
