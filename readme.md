@@ -1,28 +1,25 @@
-# 🎹 WafelNativeSynths
+# 🎧 WafelNativeSynths – Migrating to Oboe
 
-**WafelNativeSynths** is my personal project to learn how to integrate **C++** with **Android** using the **NDK**, **CMake**, and **OpenSL ES**.  
-It demonstrates how to build a simple, real-time software synthesizer engine in C++, and control it from Kotlin via **JNI** and **Platform Channels**.
-
----
-
-## 🎯 Project Goals
-
-- Learn to write and build native C++ code with the Android NDK
-- Use OpenSL ES for low-latency audio synthesis
-- Understand JNI and how native functions are accessed from Kotlin
-- Explore real-time signal generation: sine, square, triangle, and sawtooth waves
-- Apply volume normalization and continuous playback buffering
+**WafelNativeSynths** is a personal learning project that demonstrates how to implement a high-performance real-time synthesizer engine on Android using C++, JNI, and the [Oboe](https://github.com/google/oboe) audio library. This project began with OpenSL ES but has since been migrated to Oboe for improved performance, better API design, and future-proofing.
 
 ---
 
-## 📁 Tech Stack
+## 🚀 Project Goals
 
-- **C++** – For real-time audio engine
-- **OpenSL ES** – Android’s low-level audio API
-- **Android NDK + CMake** – Native build system
-- **Kotlin/Java** – Android UI layer
-- **JNI** – Bridge between native C++ and Kotlin/Java
+- Migrate from OpenSL ES to **Oboe** for lower latency and modern audio features.
+- Learn how to integrate **C++ audio engines** into Android using the **NDK** and **CMake**.
+- Use **JNI** to call native C++ audio code from Kotlin UI.
+- Generate and control real-time waveforms: **sine**, **square**, **sawtooth**, and **triangle**.
+- Add support for **polyphony**, **volume normalization**, and **continuous playback**.
+- Understand Oboe's **callback-driven architecture** and **stream configuration**.
 
 ---
 
-Feel free to clone this repo and experiment with the audio engine if you're curious about how native audio programming works on Android!
+## 🧠 Why Oboe?
+
+OpenSL ES is deprecated and has inconsistencies across Android devices. Oboe is a modern C++ wrapper that simplifies working with audio streams, unifying **AAudio** (Android 8.1+) and **OpenSL ES** under the hood. Benefits include:
+
+- ✅ Lower latency
+- ✅ Better error handling and debug info
+- ✅ Cleaner and more maintainable code
+- ✅ Easier support for modern Android devices
