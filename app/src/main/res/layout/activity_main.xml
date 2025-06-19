@@ -65,4 +65,10 @@
         android:padding="16dp"
         android:backgroundTint="#00C853"
         android:textColor="#FFFFFF" />
+
+    <com.wafelkertas.nativesynths.WaveformView
+        android:id="@+id/waveform_view"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="16dp"/>
 </LinearLayout>

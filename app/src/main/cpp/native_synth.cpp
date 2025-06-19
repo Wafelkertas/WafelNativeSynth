@@ -2,6 +2,7 @@
 #include <cmath>
 #include <mutex>
 #include <jni.h>
+#include <vector>
 
 class SynthCallback : public oboe::AudioStreamCallback {
 public:
@@ -10,6 +11,7 @@ public:
     double volume = 0.5;
     int waveform = 0; // 0: sine, 1: square, 2: saw, 3: triangle
     std::mutex mutex;
+    std::vector<float> lastFrame;
 
     void setFrequency(double freq) {
         std::lock_guard<std::mutex> lock(mutex);
@@ -39,6 +41,7 @@ public:
             localVol = volume;
             localWave = waveform;
             localPhase = phase;
+            lastFrame.assign(outputBuffer, outputBuffer + numFrames);
         }
 
         double sampleRate = stream->getSampleRate();
@@ -89,9 +92,7 @@ Java_com_wafelkertas_nativesynths_NativeSynthEngine_initEngine(JNIEnv *, jobject
             ->setCallback(&synthCallback)
             ->openStream(&stream);
 
-    if (stream != nullptr) {
-        stream->requestStart();
-    }
+
 }
 
 JNIEXPORT void JNICALL
@@ -107,6 +108,26 @@ Java_com_wafelkertas_nativesynths_NativeSynthEngine_setVolume(JNIEnv *, jobject,
 JNIEXPORT void JNICALL
 Java_com_wafelkertas_nativesynths_NativeSynthEngine_setWaveform(JNIEnv *, jobject, jint wave) {
     synthCallback.setWaveform(wave);
+}
+
+JNIEXPORT void JNICALL
+Java_com_wafelkertas_nativesynths_NativeSynthEngine_startEngine(JNIEnv *, jobject) {
+    if (stream != nullptr) stream->start();
+}
+
+JNIEXPORT void JNICALL
+Java_com_wafelkertas_nativesynths_NativeSynthEngine_stopEngine(JNIEnv *, jobject) {
+    if (stream) stream->stop();
+}
+
+JNIEXPORT jfloatArray JNICALL
+Java_com_wafelkertas_nativesynths_NativeSynthEngine_getWaveform(JNIEnv *env, jobject) {
+    std::lock_guard<std::mutex> lock(synthCallback.mutex);
+    jfloatArray result = env->NewFloatArray(synthCallback.lastFrame.size());
+    if (result != nullptr) {
+        env->SetFloatArrayRegion(result, 0, synthCallback.lastFrame.size(), synthCallback.lastFrame.data());
+    }
+    return result;
 }
 
 }

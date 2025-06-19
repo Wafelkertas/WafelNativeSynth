@@ -28,6 +28,18 @@ class NativeSynthEngine {
      */
     external fun setWaveform(wave: Int)
 
+    /**
+     * Start the native synth engine.
+     */
+    external fun startEngine()
+
+    /**
+     * Stop the native synth engine
+     */
+    external fun stopEngine()
+
+    external fun getWaveform(): FloatArray
+
     companion object {
         init {
             System.loadLibrary("native-synth") // Ensure the .so is correctly built and loaded
